@@ -119,3 +119,5 @@ run/
 
 # local property
 local.properties
+
+*.pdf

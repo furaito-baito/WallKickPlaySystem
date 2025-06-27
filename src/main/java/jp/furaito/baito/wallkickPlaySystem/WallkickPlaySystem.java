@@ -1,0 +1,79 @@
+package jp.furaito.baito.wallkickPlaySystem;
+
+import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
+import jp.furaito.baito.wallkickPlaySystem.listeners.DeathCheckListener;
+import jp.furaito.baito.wallkickPlaySystem.listeners.LobbyAreaListener;
+import jp.furaito.baito.wallkickPlaySystem.listeners.PointerListener;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public final class WallkickPlaySystem extends JavaPlugin {
+
+    public static Plugin getPlugin() {
+        return getProvidingPlugin(WallkickPlaySystem.class);
+    }
+
+    @Override
+    public void onEnable() {
+        //プラグイン開始処理
+        Bukkit.getPluginManager().registerEvents(new DeathCheckListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PointerListener(), this);
+        Bukkit.getPluginManager().registerEvents(new LobbyAreaListener(), this);
+        TabExecutor executor = new WallkickPlaySettingCommand();
+        getCommand("wallkickplaysettings").setExecutor(executor);
+        getCommand("wallkickplaysettings").setTabCompleter(executor);
+
+    }
+
+    @Override
+    public void onDisable() {
+        //プラグイン終了処理
+    }
+
+    //スポーンポイントの座標取得
+    private static Location spawnPointA,spawnPointB;
+    public static Location getSpawnPointA(){
+        return spawnPointA;
+
+    }
+    public static Location getSpawnPointB(){
+        return spawnPointB;
+
+    }
+    public static void setSpawnPointA(Location spawnPoint){
+        spawnPointA = spawnPoint;
+
+    }
+    public static void setSpawnPointB(Location spawnPoint){
+        spawnPointB = spawnPoint;
+
+    }
+
+    //ロビーエリアの座標取得
+    private static Location lobbyAreaStart,lobbyAreaEnd;
+    public static Location getLobbyAreaStart(){
+        return lobbyAreaStart;
+
+    }
+    public static Location getLobbyAreaEnd(){
+        return lobbyAreaEnd;
+
+    }
+    public static void setLobbyAreaStart(Location spawnPoint){
+        lobbyAreaStart = spawnPoint;
+
+    }
+    public static void setLobbyAreaEnd(Location spawnPoint){
+        lobbyAreaEnd = spawnPoint;
+
+    }
+
+}
+
+
+//Todo プレイヤーのリスポーンポイント設定のひな形作成
+//Todo 別マップや新規設定など、拡張性を持たせて実装する
+//Todo プラグインの動作範囲指定、ワールド・ロケーション

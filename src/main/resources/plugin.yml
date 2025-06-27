@@ -1,0 +1,12 @@
+name: wallkick-play-system
+version: '1.0'
+main: jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem
+api-version: '1.21'
+
+commands:
+  wallkickplaysettings:
+    description: "Wallkick Playing initialize Settings"
+    usage: "Only players with op. Not console. Not command_block."
+    permission: op
+    permission-message: "Ha??????"
+    aliases: [wkps]
