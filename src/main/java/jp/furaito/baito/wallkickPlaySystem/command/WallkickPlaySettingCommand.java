@@ -32,7 +32,7 @@ public class WallkickPlaySettingCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
             if (args.length==0){
-                systemMessage(sender,"ヘルプを表示しました。");
+                systemMessage(sender,"サブコマンド(引数)を入力してください");
                 return true;
             }
             //サブコマンド
