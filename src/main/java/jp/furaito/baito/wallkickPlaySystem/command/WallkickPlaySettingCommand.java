@@ -75,26 +75,7 @@ public class WallkickPlaySettingCommand implements TabExecutor {
                     systemMessage(sender,"設定したいスポーンポイントのブロックをクリックしてください。");
                 }
                 case "lobby" -> {
-                    //ロビーエリア指定用アイテム
-                    ItemStack lobbyArea = new ItemStack(Material.WOODEN_SHOVEL, 1);
 
-                    //アイテムのメタデータ編集
-                    ItemMeta metaLobby = lobbyArea.getItemMeta();
-                    metaLobby.setDisplayName("プレイヤーの振り分け地点(ロビー)を設定します");
-                    metaLobby.setLore(List.of(ChatColor.RED + "始点" + ChatColor.WHITE + ":左クリック" + ChatColor.AQUA + "終点" + ChatColor.WHITE + ":右クリック"));
-                    metaLobby.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
-                    //上記アイテムの識別子作り
-                    Plugin plugin = WallkickPlaySystem.getPlugin();
-                    NamespacedKey keylobby = new NamespacedKey(plugin, "lobby");
-
-                    metaLobby.getPersistentDataContainer().set(keylobby, PersistentDataType.STRING, "nandemoii-lobby");
-
-                    //メタデータをアイテムへ反映
-                    lobbyArea.setItemMeta(metaLobby);
-
-                    //プレイヤーへ付与
-                    player.getInventory().addItem(lobbyArea);
                     systemMessage(sender,"左クリックで始点、右クリックで終点を設定します。範囲は立体です。");
 
                 }

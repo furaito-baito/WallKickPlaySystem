@@ -5,8 +5,7 @@ api-version: '1.21'
 
 commands:
   wallkickplaysettings:
-    description: "Wallkick Playing initialize Settings"
-    usage: "Only players with op. Not console. Not command_block."
+    description: "Wallkick Playing initialize Settings."
     permission: op
-    permission-message: "Ha??????"
+    permission-message: "Only players with op. Not console. Not command_block."
     aliases: [wkps]

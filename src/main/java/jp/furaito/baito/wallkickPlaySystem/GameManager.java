@@ -3,7 +3,6 @@ package jp.furaito.baito.wallkickPlaySystem;
 import java.util.Map;
 
 public class GameManager {
-    private WallkickLobby lobby;
     private Map<String,WallkickStage>stageMap;
 
 }
