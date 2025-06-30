@@ -1,6 +1,7 @@
 package jp.furaito.baito.wallkickPlaySystem.command;
 
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
+import jp.furaito.baito.wallkickPlaySystem.serialize.WallkickStageSave;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -8,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -21,8 +21,8 @@ import java.util.List;
 
 public class WallkickPlaySettingCommand implements TabExecutor {
 
-    public static void systemMessage(CommandSender sender,String message){
-        sender.sendMessage("[" + ChatColor.GREEN + "WallKick" +ChatColor.RESET + "]:" + message);
+    public static void systemMessage(CommandSender sender, String message) {
+        sender.sendMessage("[" + ChatColor.GREEN + "WallKick" + ChatColor.RESET + "]:" + message);
 
     }
 
@@ -31,15 +31,15 @@ public class WallkickPlaySettingCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
-            if (args.length==0){
-                systemMessage(sender,"サブコマンド(引数)を入力してください");
+            if (args.length == 0) {
+                systemMessage(sender, "サブコマンド(引数)を入力してください");
                 return true;
             }
             //サブコマンド
             switch (args[0].toLowerCase()) {
                 //ヘルプの表示
                 case "help" -> {
-                    systemMessage(sender,"ヘルプを表示しました。");
+                    systemMessage(sender, "ヘルプを表示しました。");
                     //stage,rename,confirm
                 }
 
@@ -72,14 +72,18 @@ public class WallkickPlaySettingCommand implements TabExecutor {
 
                     //プレイヤーへ付与
                     player.getInventory().addItem(spawnPointerA, spawnPointerB);
-                    systemMessage(sender,"設定したいスポーンポイントのブロックをクリックしてください。");
+                    systemMessage(sender, "設定したいスポーンポイントのブロックをクリックしてください。");
                 }
-                case "lobby" -> {
-
-                    systemMessage(sender,"左クリックで始点、右クリックで終点を設定します。範囲は立体です。");
+                case "stage" -> {
+                    if (args.length >= 2) {
+                        WallkickStageSave.stageSave(args[1], player);
+                    } else {
+                        systemMessage(sender, "ステージ名を入力してください。");
+                    }
 
                 }
-                default -> systemMessage(sender,ChatColor.DARK_RED  +"不明なサブコマンドです。/wkps help を確認してください。");
+                default ->
+                        systemMessage(sender, ChatColor.DARK_RED + "不明なサブコマンドです。/wkps help を確認してください。");
             }
             return true;
         }
@@ -92,7 +96,7 @@ public class WallkickPlaySettingCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (strings.length == 1) {
-            List<String> subcommands = List.of("help", "spawnpoint", "lobby");
+            List<String> subcommands = List.of("help", "spawnpoint", "stage");
             return subcommands.stream()
                     .filter(st -> st.startsWith(strings[0].toLowerCase()))
                     .toList();

@@ -1,4 +1,4 @@
-package jp.furaito.baito.wallkickPlaySystem;
+package jp.furaito.baito.wallkickPlaySystem.serialize;
 
 import org.bukkit.Location;
 
@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public class WallkickStage {
     private final UUID stageUUID;
+    private final List<Location> spawnPoint;
     private String stageName;
     private int minPlayer;
     private int maxPlayer;
-    private final List <Location>spawnPoint;
     private boolean isRunning;
 
 
@@ -24,8 +24,8 @@ public class WallkickStage {
         this.isRunning = false;
     }
 
-    public WallkickStage(UUID stageUUID,String stageName) {
-        this(stageUUID,stageName,2,2);
+    public WallkickStage(UUID stageUUID, String stageName) {
+        this(stageUUID, stageName, 2, 2);
     }
 
     public UUID getStageUUID() {
@@ -56,11 +56,11 @@ public class WallkickStage {
         this.maxPlayer = maxPlayer;
     }
 
-    public boolean addSpawnPoint(Location location){
+    public boolean addSpawnPoint(Location location) {
         return this.spawnPoint.add(location);
     }
 
-    public boolean removeSpawnPoint(Location location){
+    public boolean removeSpawnPoint(Location location) {
         return this.spawnPoint.remove(location);
     }
 

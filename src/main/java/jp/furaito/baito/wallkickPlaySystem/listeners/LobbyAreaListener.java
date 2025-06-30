@@ -1,7 +1,7 @@
 package jp.furaito.baito.wallkickPlaySystem.listeners;
 
-import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
+import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,9 +16,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.Plugin;
 
-public class LobbyAreaListener  implements Listener {
+public class LobbyAreaListener implements Listener {
     @EventHandler
-    public void listenerLobbyArea(PlayerInteractEvent event){
+    public void listenerLobbyArea(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack hothand = event.getItem();
         if (hothand == null) return;
@@ -38,15 +38,15 @@ public class LobbyAreaListener  implements Listener {
         Location location = clickBlock.getLocation();
 
         //始点処理
-        if (click.equals(Action.LEFT_CLICK_BLOCK)){
+        if (click.equals(Action.LEFT_CLICK_BLOCK)) {
             WallkickPlaySystem.setLobbyAreaStart(location);
-            WallkickPlaySettingCommand.systemMessage(player,ChatColor.RED + "始点" + ChatColor.RESET + "を設定しました");
+            WallkickPlaySettingCommand.systemMessage(player, ChatColor.RED + "始点" + ChatColor.RESET + "を設定しました");
         }
 
         //終点処理
-        else if (click.equals(Action.RIGHT_CLICK_BLOCK)){
+        else if (click.equals(Action.RIGHT_CLICK_BLOCK)) {
             WallkickPlaySystem.setLobbyAreaEnd(location);
-            WallkickPlaySettingCommand.systemMessage(player,ChatColor.AQUA + "終点" + ChatColor.RESET + "を設定しました");
+            WallkickPlaySettingCommand.systemMessage(player, ChatColor.AQUA + "終点" + ChatColor.RESET + "を設定しました");
         }
     }
 

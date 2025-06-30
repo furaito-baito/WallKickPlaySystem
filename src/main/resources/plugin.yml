@@ -2,6 +2,7 @@ name: wallkick-play-system
 version: '1.0'
 main: jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem
 api-version: '1.21'
+depend: [WorldEdit]
 
 commands:
   wallkickplaysettings:

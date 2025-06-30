@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.permissions.ServerOperator;
 import org.bukkit.plugin.Plugin;
 
 public class DeathCheckListener implements Listener {
@@ -39,7 +38,6 @@ public class DeathCheckListener implements Listener {
             //DUSTパーティクル生成
             Particle.DustOptions colorOption = new Particle.DustOptions(Color.fromRGB(0, 255, 0), 1.0f);
             world.spawnParticle(Particle.DUST, location, 60, 0.3, 1.0, 0.3, 0.0, colorOption);
-
 
 
             //20tick(1秒)*3秒後に接触判定と透明化を戻す

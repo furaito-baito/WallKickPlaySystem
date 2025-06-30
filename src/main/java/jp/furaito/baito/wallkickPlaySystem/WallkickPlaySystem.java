@@ -1,10 +1,7 @@
 package jp.furaito.baito.wallkickPlaySystem;
 
 import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
-import jp.furaito.baito.wallkickPlaySystem.listeners.DeathCheckListener;
-import jp.furaito.baito.wallkickPlaySystem.listeners.LobbyAreaListener;
-import jp.furaito.baito.wallkickPlaySystem.listeners.PointerListener;
-import jp.furaito.baito.wallkickPlaySystem.listeners.SpectatorListener;
+import jp.furaito.baito.wallkickPlaySystem.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.TabExecutor;
@@ -69,6 +66,7 @@ public final class WallkickPlaySystem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PointerListener(), this);
         Bukkit.getPluginManager().registerEvents(new LobbyAreaListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpectatorListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ArrowHit(), this);
         TabExecutor executor = new WallkickPlaySettingCommand();
         getCommand("wallkickplaysettings").setExecutor(executor);
         getCommand("wallkickplaysettings").setTabCompleter(executor);

@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class SpectatorListener implements Listener {
     @EventHandler
-    public void listenSpectator(PlayerQuitEvent event) {
+    public void listenLogout(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         if (!player.isOp()) player.setGameMode(GameMode.SURVIVAL);
     }
@@ -21,5 +21,7 @@ public class SpectatorListener implements Listener {
             if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) event.setCancelled(true);
         }
     }
-    //todo
+
 }
+
+//Todo ステージ範囲内から観戦者が出られないようにする文章をここに書く
