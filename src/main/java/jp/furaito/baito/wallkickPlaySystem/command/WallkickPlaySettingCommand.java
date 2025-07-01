@@ -39,24 +39,28 @@ public class WallkickPlaySettingCommand implements TabExecutor {
             switch (args[0].toLowerCase()) {
                 //ヘルプの表示
                 case "help" -> {
-                    systemMessage(sender, "ヘルプを表示しました。");
-                    //stage,rename,confirm
+                    systemMessage(sender, ChatColor.GRAY + "/wallkickplaysystem or /wkps メインコマンド");
+                    systemMessage(sender, ChatColor.GRAY + "/wkps help ヘルプの表示");
+                    if (player.isOp()) systemMessage(sender, ChatColor.GRAY + "/wkps stage ステージ管理GUIの表示");
+                    systemMessage(sender, ChatColor.GRAY + "/wkps stats <minecraftID>プレイヤーの戦績を表示");
+                    systemMessage(sender, ChatColor.GRAY + "/wkps skin 装備品の見た目を変更");
+
                 }
 
                 //スポーンポイント設定
                 case "spawnpoint" -> {
                     //プレイヤースポーンポイント設定用アイテムのメタデータ
-                    ItemStack spawnPointerA = new ItemStack(Material.ARMOR_STAND, 1);
-                    ItemStack spawnPointerB = new ItemStack(Material.ARMOR_STAND, 1);
+                    ItemStack spawnPointerA = new ItemStack(Material.RED_WOOL, 1);
+                    ItemStack spawnPointerB = new ItemStack(Material.LIME_WOOL, 1);
 
                     ItemMeta metaA = spawnPointerA.getItemMeta();
                     ItemMeta metaB = spawnPointerB.getItemMeta();
 
-                    metaA.setDisplayName("プレイヤー" + ChatColor.YELLOW + "<A>" + ChatColor.RESET + "のスポーンポイントを設定");
-                    metaB.setDisplayName("プレイヤー" + ChatColor.AQUA + "<B>" + ChatColor.RESET + "のスポーンポイントを設定");
+                    metaA.setDisplayName("スポーンポイント" + ChatColor.RED + "<A>" + ChatColor.RESET + "を設定");
+                    metaB.setDisplayName("スポーンポイント" + ChatColor.GREEN + "<B>" + ChatColor.RESET + "を設定");
 
-                    metaA.setLore(List.of(ChatColor.RED + "設定したい場所を右クリック"));
-                    metaB.setLore(List.of(ChatColor.RED + "設定したい場所を右クリック"));
+                    metaA.setLore(List.of(ChatColor.RED + "設定した防具立てを右クリック"));
+                    metaB.setLore(List.of(ChatColor.RED + "設定した防具立てを右クリック"));
 
                     //上記アイテムの識別子作り
                     Plugin plugin = WallkickPlaySystem.getPlugin();
@@ -72,7 +76,8 @@ public class WallkickPlaySettingCommand implements TabExecutor {
 
                     //プレイヤーへ付与
                     player.getInventory().addItem(spawnPointerA, spawnPointerB);
-                    systemMessage(sender, "設定したいスポーンポイントのブロックをクリックしてください。");
+                    systemMessage(sender, "設定したいポイントに防具立てを設置後、専用アイテムで確定してください。");
+                    systemMessage(sender, "上限は2箇所です。防具立ての向きと座標を記録します。");
                 }
                 case "stage" -> {
                     if (args.length >= 2) {

@@ -12,7 +12,6 @@ public final class WallkickPlaySystem extends JavaPlugin {
 
     //スポーンポイントの座標取得
     private static Location spawnPointA, spawnPointB;
-    //ロビーエリアの座標取得
     private static Location lobbyAreaStart, lobbyAreaEnd;
 
     public static Plugin getPlugin() {
@@ -63,10 +62,10 @@ public final class WallkickPlaySystem extends JavaPlugin {
     public void onEnable() {
         //プラグイン開始処理
         Bukkit.getPluginManager().registerEvents(new DeathCheckListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PointerListener(), this);
         Bukkit.getPluginManager().registerEvents(new LobbyAreaListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpectatorListener(), this);
-        Bukkit.getPluginManager().registerEvents(new ArrowHit(), this);
+        Bukkit.getPluginManager().registerEvents(new ArrowHitListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PointGetListener(), this);
         TabExecutor executor = new WallkickPlaySettingCommand();
         getCommand("wallkickplaysettings").setExecutor(executor);
         getCommand("wallkickplaysettings").setTabCompleter(executor);

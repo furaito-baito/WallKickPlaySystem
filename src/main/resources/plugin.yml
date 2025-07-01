@@ -5,7 +5,7 @@ api-version: '1.21'
 depend: [WorldEdit]
 
 commands:
-  wallkickplaysettings:
+  wallkickplaysystem:
     description: "Wallkick Playing initialize Settings."
     permission: op
     permission-message: "Only players with op. Not console. Not command_block."
