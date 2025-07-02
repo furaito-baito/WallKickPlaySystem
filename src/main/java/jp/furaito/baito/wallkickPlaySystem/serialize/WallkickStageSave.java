@@ -12,6 +12,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
+import jp.furaito.baito.wallkickPlaySystem.command.CommandUtil;
 import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
 import org.bukkit.entity.Player;
 
@@ -53,9 +54,9 @@ public class WallkickStageSave {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            WallkickPlaySettingCommand.systemMessage(player, "オブジェクトを保存しました。");
+            CommandUtil.systemMessage(player, "オブジェクトを保存しました。");
         } catch (IncompleteRegionException e) {
-            WallkickPlaySettingCommand.systemMessage(player,"始点と終点の2箇所を選択してください。");
+            CommandUtil.systemMessage(player,"始点と終点の2箇所を選択してください。");
         }
     }
 
