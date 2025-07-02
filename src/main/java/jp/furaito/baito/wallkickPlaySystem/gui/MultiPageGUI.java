@@ -14,7 +14,8 @@ public abstract class MultiPageGUI extends GUIPage {
 
     /**
      * コンストラクタ
-     * @param player プレイヤー
+     *
+     * @param player     プレイヤー
      * @param pageNumber ページ番号
      */
     public MultiPageGUI(Player player, int pageNumber) {
@@ -24,6 +25,7 @@ public abstract class MultiPageGUI extends GUIPage {
 
     /**
      * ページ番号を返す
+     *
      * @return ページ番号
      */
     public int getPageNumber() {

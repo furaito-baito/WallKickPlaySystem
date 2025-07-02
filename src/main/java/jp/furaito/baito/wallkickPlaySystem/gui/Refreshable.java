@@ -11,6 +11,7 @@ public interface Refreshable {
 
     /**
      * ページを自動で更新する周期
+     *
      * @return tick
      */
     long refreshIntervalTicks();

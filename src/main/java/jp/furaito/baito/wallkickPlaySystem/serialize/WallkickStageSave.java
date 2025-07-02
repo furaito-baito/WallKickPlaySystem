@@ -13,7 +13,6 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
 import jp.furaito.baito.wallkickPlaySystem.command.CommandUtil;
-import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -56,7 +55,7 @@ public class WallkickStageSave {
             }
             CommandUtil.systemMessage(player, "オブジェクトを保存しました。");
         } catch (IncompleteRegionException e) {
-            CommandUtil.systemMessage(player,"始点と終点の2箇所を選択してください。");
+            CommandUtil.systemMessage(player, "始点と終点の2箇所を選択してください。");
         }
     }
 

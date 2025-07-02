@@ -2,12 +2,10 @@ package jp.furaito.baito.wallkickPlaySystem.command;
 
 import jp.furaito.baito.wallkickPlaySystem.gui.GUIManager;
 import jp.furaito.baito.wallkickPlaySystem.gui.StageManagerGUI;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 public class WallKickStageCommand implements CommandExecutor {
@@ -19,10 +17,11 @@ public class WallKickStageCommand implements CommandExecutor {
 
     /**
      * ステージ管理のGUIを表示する
-     * @param sender Source of the command
+     *
+     * @param sender  Source of the command
      * @param command Command which was executed
-     * @param label Alias of the command which was used
-     * @param args Passed command arguments
+     * @param label   Alias of the command which was used
+     * @param args    Passed command arguments
      * @return 正常に実行したか
      */
     @Override

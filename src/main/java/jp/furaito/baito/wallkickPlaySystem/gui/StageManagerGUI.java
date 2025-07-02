@@ -5,13 +5,10 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -21,7 +18,8 @@ public class StageManagerGUI extends MultiPageGUI {
 
     /**
      * コンストラクタ
-     * @param player 表示するプレイヤー
+     *
+     * @param player     表示するプレイヤー
      * @param pageNumber ページ番号
      */
     public StageManagerGUI(Player player, int pageNumber) {
@@ -30,6 +28,7 @@ public class StageManagerGUI extends MultiPageGUI {
 
     /**
      * インベントリを作成する
+     *
      * @return インベントリ
      */
     @Override
@@ -88,7 +87,7 @@ public class StageManagerGUI extends MultiPageGUI {
         if (GUIUtil.hasKey(clickedItem, "stageUUID")) {
             //TODO ステージIdを利用して表示するデータを変更
             String stageUUID = GUIUtil.getData(clickedItem, "stageUUID");
-            GUIManager.goTo(new StageDetailGUI(UUID.fromString(stageUUID), getPlayer()));
+            GUIManager.goTo(new StageDetailGUI(UUID.randomUUID(), getPlayer()));
         }
     }
 

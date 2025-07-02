@@ -6,17 +6,19 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class AutoRefreshManager {
 
-    private static Plugin plugin;
-
     private static final Map<UUID, Refreshable> allRefreshable = new HashMap<>();
     private static final Map<UUID, BukkitTask> tasks = new HashMap<>();
+    private static Plugin plugin;
 
     /**
      * 初期化
+     *
      * @param plugin プラグイン
      */
     public static void init(Plugin plugin) {
@@ -25,6 +27,7 @@ public class AutoRefreshManager {
 
     /**
      * 自動更新の対象に加える
+     *
      * @param uuid プレイヤーのuuid
      * @param page 更新するページ
      */
@@ -55,6 +58,7 @@ public class AutoRefreshManager {
 
     /**
      * 自動更新の対象から外す
+     *
      * @param uuid プレイヤーのuuid
      */
     public static void unregister(UUID uuid) {

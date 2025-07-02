@@ -23,6 +23,7 @@ public abstract class GUIPage implements InventoryHolder {
 
     /**
      * コンストラクタ
+     *
      * @param player 表示するプレイヤー
      */
     public GUIPage(Player player) {
@@ -31,6 +32,7 @@ public abstract class GUIPage implements InventoryHolder {
 
     /**
      * 表示に使用するインベントリを作成する
+     *
      * @return インベントリ
      */
     public abstract Inventory createInventory();
@@ -43,15 +45,18 @@ public abstract class GUIPage implements InventoryHolder {
     /**
      * 開いたときにする処理
      */
-    public void onOpen() {}
+    public void onOpen() {
+    }
 
     /**
      * 閉じるときにする処理
      */
-    public void onClose() {}
+    public void onClose() {
+    }
 
     /**
      * ページ内でクリックされたときの処理
+     *
      * @param event イベント情報
      */
     public abstract void onClick(InventoryClickEvent event);
@@ -68,6 +73,7 @@ public abstract class GUIPage implements InventoryHolder {
 
     /**
      * 表示しているインベントリを返す
+     *
      * @return 表示中のインベントリ 何も表示されていない場合nullが返る
      */
     @NotNull
@@ -78,6 +84,7 @@ public abstract class GUIPage implements InventoryHolder {
 
     /**
      * 表示する or している プレイヤーを返す
+     *
      * @return プレイヤー
      */
     public Player getPlayer() {

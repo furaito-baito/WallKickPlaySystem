@@ -6,8 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
@@ -18,7 +16,14 @@ public class GUIManager {
     private static Plugin plugin;
 
     /**
+     * インスタンスの生成を制限
+     */
+    private GUIManager() {
+    }
+
+    /**
      * 初期化処理
+     *
      * @param plugin 動作させるプラグイン
      */
     public static void init(Plugin plugin) {
@@ -28,6 +33,7 @@ public class GUIManager {
 
     /**
      * ページを移動する
+     *
      * @param next 移動するページ
      */
     public static void goTo(GUIPage next) {
@@ -43,6 +49,7 @@ public class GUIManager {
 
     /**
      * 一つ前のページに戻る
+     *
      * @param player 戻すプレイヤー
      */
     public static void goBack(Player player) {
@@ -62,6 +69,7 @@ public class GUIManager {
 
     /**
      * ページの移動履歴を強制的に消す
+     *
      * @param player 削除するプレイヤー
      */
     public static void clearHistory(Player player) {
@@ -75,11 +83,11 @@ public class GUIManager {
         historyMap.clear();
     }
 
-
     /**
      * ページの履歴を消す
+     *
      * @param player プレイヤー
-     * @param page ページ
+     * @param page   ページ
      */
     public static void clearIfTop(Player player, GUIPage page) {
         UUID uuid = player.getUniqueId();
@@ -89,11 +97,6 @@ public class GUIManager {
             if (stack.isEmpty()) historyMap.remove(uuid); // 完全解放
         }
     }
-
-    /**
-     * インスタンスの生成を制限
-     */
-    private GUIManager(){}
 
     /**
      * GUIのインベントリのイベントをキャンセルするリスナーを登録する

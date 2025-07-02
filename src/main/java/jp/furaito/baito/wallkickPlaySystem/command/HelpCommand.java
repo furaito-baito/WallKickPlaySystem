@@ -1,13 +1,9 @@
 package jp.furaito.baito.wallkickPlaySystem.command;
 
-import jp.furaito.baito.wallkickPlaySystem.gui.GUIManager;
-import jp.furaito.baito.wallkickPlaySystem.gui.StageManagerGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -28,9 +28,10 @@ public class GUIUtil {
     /**
      * アイテムに指定のキーで文字を埋め込む
      * 主に識別用のidとして使う
+     *
      * @param itemStack 埋め込むアイテム
-     * @param key キー
-     * @param id 埋め込む文字
+     * @param key       キー
+     * @param id        埋め込む文字
      */
     public static void embedData(ItemStack itemStack, String key, String id) {
         ItemMeta meta = itemStack.getItemMeta();
@@ -42,15 +43,16 @@ public class GUIUtil {
 
     /**
      * アイテムに指定のキーで文字が埋め込まれているか
+     *
      * @param itemStack 調べるアイテム
-     * @param key キー
-     * @param id 文字
+     * @param key       キー
+     * @param id        文字
      */
     public static boolean containsData(ItemStack itemStack, String key, String id) {
         ItemMeta meta = itemStack.getItemMeta();
         NamespacedKey namespacedKey = new NamespacedKey(WallkickPlaySystem.getPlugin(), key);
         PersistentDataContainer container = Objects.requireNonNull(meta).getPersistentDataContainer();
-        if(container.has(namespacedKey, PersistentDataType.STRING)) {
+        if (container.has(namespacedKey, PersistentDataType.STRING)) {
             return Objects.requireNonNull(container.get(namespacedKey, PersistentDataType.STRING)).equalsIgnoreCase(id);
         }
         return false;
@@ -58,15 +60,16 @@ public class GUIUtil {
 
     /**
      * アイテムに指定のキーで埋め込まれている文字が特定の文字で始まるか
+     *
      * @param itemStack 調べるアイテム
-     * @param key キー
-     * @param id 文字
+     * @param key       キー
+     * @param id        文字
      */
     public static boolean startsWith(ItemStack itemStack, String key, String id) {
         ItemMeta meta = itemStack.getItemMeta();
         NamespacedKey namespacedKey = new NamespacedKey(WallkickPlaySystem.getPlugin(), key);
         PersistentDataContainer container = Objects.requireNonNull(meta).getPersistentDataContainer();
-        if(container.has(namespacedKey, PersistentDataType.STRING)) {
+        if (container.has(namespacedKey, PersistentDataType.STRING)) {
             return Objects.requireNonNull(container.get(namespacedKey, PersistentDataType.STRING)).startsWith(id);
         }
         return false;
@@ -74,14 +77,15 @@ public class GUIUtil {
 
     /**
      * アイテムに指定のキーで埋め込まれている文字を返す
+     *
      * @param itemStack 調べるアイテム
-     * @param key キー
+     * @param key       キー
      */
     public static String getData(ItemStack itemStack, String key) {
         ItemMeta meta = itemStack.getItemMeta();
         NamespacedKey namespacedKey = new NamespacedKey(WallkickPlaySystem.getPlugin(), key);
         PersistentDataContainer container = Objects.requireNonNull(meta).getPersistentDataContainer();
-        if(container.has(namespacedKey, PersistentDataType.STRING)) {
+        if (container.has(namespacedKey, PersistentDataType.STRING)) {
             return Objects.requireNonNull(container.get(namespacedKey, PersistentDataType.STRING));
         }
         throw new IllegalArgumentException("key not found");
@@ -96,8 +100,9 @@ public class GUIUtil {
 
     /**
      * アイテムに埋め込まれているデータを消す
+     *
      * @param itemStack 埋め込むアイテム
-     * @param key キー
+     * @param key       キー
      */
     public static void deleteKey(ItemStack itemStack, String key) {
         ItemMeta meta = itemStack.getItemMeta();
@@ -108,6 +113,7 @@ public class GUIUtil {
 
     /**
      * 境界用のツールチップのないアイテムを作る
+     *
      * @param material マテリアル
      * @return 生成されたアイテムスタック
      */
@@ -121,7 +127,7 @@ public class GUIUtil {
         borderMeta.setLore(List.of(""));
         borderMeta.setHideTooltip(true);
         border.setItemMeta(borderMeta);
-        return  border;
+        return border;
     }
 
 
@@ -132,17 +138,18 @@ public class GUIUtil {
         borderMeta.setLore(description);
         hideFlag(borderMeta);
         border.setItemMeta(borderMeta);
-        return  border;
+        return border;
     }
 
     /**
      * インベントリに指定のアイテムで横線を作る
+     *
      * @param inventory 編集するインベントリ
-     * @param material 使用するマテリアル
-     * @param line 行インデックス
+     * @param material  使用するマテリアル
+     * @param line      行インデックス
      * @param overwrite アイテムを上書きするか
      */
-    public static void drawHorizontalLine(Inventory inventory, Material material ,int line, boolean overwrite) {
+    public static void drawHorizontalLine(Inventory inventory, Material material, int line, boolean overwrite) {
         ItemStack border = createBorder(material);
         int height = inventory.getSize() / 9;
 
@@ -166,12 +173,13 @@ public class GUIUtil {
 
     /**
      * インベントリに指定のアイテムで縦線を作る
+     *
      * @param inventory 編集するインベントリ
-     * @param material 使用するマテリアル
-     * @param line 列インデックス
+     * @param material  使用するマテリアル
+     * @param line      列インデックス
      * @param overwrite アイテムを上書きするか
      */
-    public static void drawVerticalLine(Inventory inventory, Material material ,int line, boolean overwrite) {
+    public static void drawVerticalLine(Inventory inventory, Material material, int line, boolean overwrite) {
         ItemStack border = createBorder(material);
         if (line < 0 || 8 < line) {
             throw new IllegalArgumentException("out of line");
@@ -195,28 +203,31 @@ public class GUIUtil {
     /**
      * インベントリの背景を作る
      * 既にアイテムのある場所は上書きされない
+     *
      * @param inventory インベントリ
-     * @param material 背景のアイテム
+     * @param material  背景のアイテム
      */
     public static void drawBackGround(Inventory inventory, Material material) {
-        drawBackGround(inventory,material, false);
+        drawBackGround(inventory, material, false);
     }
 
     /**
      * インベントリの背景を作る
+     *
      * @param inventory インベントリ
-     * @param material 背景のアイテム
+     * @param material  背景のアイテム
      * @param overwrite アイテムを上書きするか
      */
     public static void drawBackGround(Inventory inventory, Material material, boolean overwrite) {
         int height = inventory.getSize() / 9;
-        for (int i = 0;i < height;i++) {
+        for (int i = 0; i < height; i++) {
             drawHorizontalLine(inventory, material, i, overwrite);
         }
     }
 
     /**
      * 次へボタンを作成する
+     *
      * @return アイテムスタック
      */
     public static ItemStack createForward() {
@@ -248,6 +259,7 @@ public class GUIUtil {
 
     /**
      * 戻るボタンを作成する
+     *
      * @return アイテムスタック
      */
     public static ItemStack createBackward() {
@@ -279,6 +291,7 @@ public class GUIUtil {
 
     /**
      * アイテムの情報を隠す + 耐久値を消す
+     *
      * @param meta 編集するメタデータ
      */
     public static void hideFlag(ItemMeta meta) {

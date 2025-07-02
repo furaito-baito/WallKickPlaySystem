@@ -4,10 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -39,7 +36,6 @@ public class StageDetailGUI extends GUIPage {
         inventory.setItem(9, stageInfo);
 
 
-
         // 戻るボタン
         ItemStack backward = GUIUtil.createBackward();
         inventory.setItem(0, backward);
@@ -47,6 +43,7 @@ public class StageDetailGUI extends GUIPage {
 
     /**
      * クリック時の処理
+     *
      * @param event イベント情報
      */
     @Override

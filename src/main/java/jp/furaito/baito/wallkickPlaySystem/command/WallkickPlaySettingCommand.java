@@ -1,19 +1,11 @@
 package jp.furaito.baito.wallkickPlaySystem.command;
 
-import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
-import jp.furaito.baito.wallkickPlaySystem.serialize.WallkickStageSave;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

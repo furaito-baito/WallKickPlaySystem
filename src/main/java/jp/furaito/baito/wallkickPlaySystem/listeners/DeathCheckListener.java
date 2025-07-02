@@ -25,7 +25,6 @@ public class DeathCheckListener implements Listener {
             event.setCancelled(true);
 
 
-
             //プレイヤーの体力をリセット・スペクテイター化
             player.setHealth(player.getMaxHealth());
             player.setGameMode(GameMode.SPECTATOR);

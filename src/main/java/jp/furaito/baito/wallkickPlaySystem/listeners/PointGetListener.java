@@ -2,7 +2,6 @@ package jp.furaito.baito.wallkickPlaySystem.listeners;
 
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
 import jp.furaito.baito.wallkickPlaySystem.command.CommandUtil;
-import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;

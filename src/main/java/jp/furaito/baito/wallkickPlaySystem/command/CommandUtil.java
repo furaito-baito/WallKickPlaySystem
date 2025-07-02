@@ -3,12 +3,11 @@ package jp.furaito.baito.wallkickPlaySystem.command;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
-
 public class CommandUtil {
     /**
      * システムメッセージを送信する
-     * @param target 送信相手
+     *
+     * @param target  送信相手
      * @param message メッセージの内容
      */
     public static void systemMessage(CommandSender target, String message) {
@@ -17,7 +16,8 @@ public class CommandUtil {
 
     /**
      * システムメッセージを送信する
-     * @param target 送信相手
+     *
+     * @param target   送信相手
      * @param messages メッセージの内容
      */
     public static void systemMessage(CommandSender target, String... messages) {
