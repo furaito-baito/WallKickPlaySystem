@@ -30,28 +30,25 @@ public class WallkickPlaySettingCommand implements TabExecutor {
         subcommandExecutor.put(WallKickStageCommand.SUB_COMMAND, new WallKickStageCommand());
     }
 
-    public static void systemMessage(CommandSender sender, String message) {
-        sender.sendMessage("[" + ChatColor.GREEN + "WallKick" + ChatColor.RESET + "]:" + message);
-    }
-
-
     //リスポーンポイント設定の雛型
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
             if (args.length == 0) {
-                systemMessage(sender, "サブコマンド(引数)を入力してください");
+                CommandUtil.systemMessage(sender, "サブコマンド(引数)を入力してください");
                 return true;
             }
+
+
             //サブコマンド
             switch (args[0].toLowerCase()) {
                 //ヘルプの表示
                 case "help" -> {
-                    systemMessage(sender, ChatColor.GRAY + "/wallkickplaysystem or /wkps メインコマンド");
-                    systemMessage(sender, ChatColor.GRAY + "/wkps help ヘルプの表示");
-                    if (player.isOp()) systemMessage(sender, ChatColor.GRAY + "/wkps stage ステージ管理GUIの表示");
-                    systemMessage(sender, ChatColor.GRAY + "/wkps stats <minecraftID>プレイヤーの戦績を表示");
-                    systemMessage(sender, ChatColor.GRAY + "/wkps skin 装備品の見た目を変更");
+                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wallkickplaysystem or /wkps メインコマンド");
+                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps help ヘルプの表示");
+                    if (player.isOp()) CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps stage ステージ管理GUIの表示");
+                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps stats <minecraftID>プレイヤーの戦績を表示");
+                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps skin 装備品の見た目を変更");
                 }
 
                 //スポーンポイント設定
@@ -83,8 +80,8 @@ public class WallkickPlaySettingCommand implements TabExecutor {
 
                     //プレイヤーへ付与
                     player.getInventory().addItem(spawnPointerA, spawnPointerB);
-                    systemMessage(sender, "設定したいポイントに防具立てを設置後、専用アイテムで確定してください。");
-                    systemMessage(sender, "上限は2箇所です。防具立ての向きと座標を記録します。");
+                    CommandUtil.systemMessage(sender, "設定したいポイントに防具立てを設置後、専用アイテムで確定してください。");
+                    CommandUtil.systemMessage(sender, "上限は2箇所です。防具立ての向きと座標を記録します。");
                 }
                 case "stage" -> {
                     subcommandExecutor.get("stage").onCommand(sender, command, label, args);
@@ -96,7 +93,7 @@ public class WallkickPlaySettingCommand implements TabExecutor {
 
                 }
                 default ->
-                        systemMessage(sender, ChatColor.DARK_RED + "不明なサブコマンドです。/wkps help を確認してください。");
+                        CommandUtil.systemMessage(sender, ChatColor.DARK_RED + "不明なサブコマンドです。/wkps help を確認してください。");
             }
             return true;
         }
