@@ -29,6 +29,12 @@ public class WallKickStageCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase(SUB_COMMAND)) {
             if (sender instanceof Player player) {
+                //                    if (args.length >= 2) {
+//                        WallkickStageSave.stageSave(args[1], player);
+//                    } else {
+//                        systemMessage(sender, "ステージ名を入力してください。");
+//                    }
+
                 GUIManager.goTo(new StageManagerGUI(player, 0));
             }
         }

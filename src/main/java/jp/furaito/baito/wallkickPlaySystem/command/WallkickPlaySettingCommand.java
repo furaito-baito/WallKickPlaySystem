@@ -24,10 +24,12 @@ import java.util.Map;
 
 public class WallkickPlaySettingCommand implements TabExecutor {
 
-    private final Map<String, CommandExecutor> subcommandExecutor = new HashMap<>();
+    private final Map<String, CommandExecutor> subcommandMap = new HashMap<>();
 
     public WallkickPlaySettingCommand() {
-        subcommandExecutor.put(WallKickStageCommand.SUB_COMMAND, new WallKickStageCommand());
+        subcommandMap.put(WallKickStageCommand.SUB_COMMAND, new WallKickStageCommand());
+        subcommandMap.put(HelpCommand.SUB_COMMAND, new HelpCommand());
+        subcommandMap.put(SpawnPointCommand.SUB_COMMAND, new SpawnPointCommand());
     }
 
     //リスポーンポイント設定の雛型
@@ -39,75 +41,21 @@ public class WallkickPlaySettingCommand implements TabExecutor {
                 return true;
             }
 
-
-            //サブコマンド
-            switch (args[0].toLowerCase()) {
-                //ヘルプの表示
-                case "help" -> {
-                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wallkickplaysystem or /wkps メインコマンド");
-                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps help ヘルプの表示");
-                    if (player.isOp()) CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps stage ステージ管理GUIの表示");
-                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps stats <minecraftID>プレイヤーの戦績を表示");
-                    CommandUtil.systemMessage(sender, ChatColor.GRAY + "/wkps skin 装備品の見た目を変更");
-                }
-
-                //スポーンポイント設定
-                case "spawnpoint" -> {
-                    //プレイヤースポーンポイント設定用アイテムのメタデータ
-                    ItemStack spawnPointerA = new ItemStack(Material.RED_WOOL, 1);
-                    ItemStack spawnPointerB = new ItemStack(Material.LIME_WOOL, 1);
-
-                    ItemMeta metaA = spawnPointerA.getItemMeta();
-                    ItemMeta metaB = spawnPointerB.getItemMeta();
-
-                    metaA.setDisplayName("スポーンポイント" + ChatColor.RED + "<A>" + ChatColor.RESET + "を設定");
-                    metaB.setDisplayName("スポーンポイント" + ChatColor.GREEN + "<B>" + ChatColor.RESET + "を設定");
-
-                    metaA.setLore(List.of(ChatColor.RED + "設定した防具立てを右クリック"));
-                    metaB.setLore(List.of(ChatColor.RED + "設定した防具立てを右クリック"));
-
-                    //上記アイテムの識別子作り
-                    Plugin plugin = WallkickPlaySystem.getPlugin();
-                    NamespacedKey keyA = new NamespacedKey(plugin, "pointer-a");
-                    NamespacedKey keyB = new NamespacedKey(plugin, "pointer-b");
-
-                    metaA.getPersistentDataContainer().set(keyA, PersistentDataType.STRING, "nandemoii-a");
-                    metaB.getPersistentDataContainer().set(keyB, PersistentDataType.STRING, "nandemoii-b");
-
-                    //メタデータをアイテムへ反映
-                    spawnPointerA.setItemMeta(metaA);
-                    spawnPointerB.setItemMeta(metaB);
-
-                    //プレイヤーへ付与
-                    player.getInventory().addItem(spawnPointerA, spawnPointerB);
-                    CommandUtil.systemMessage(sender, "設定したいポイントに防具立てを設置後、専用アイテムで確定してください。");
-                    CommandUtil.systemMessage(sender, "上限は2箇所です。防具立ての向きと座標を記録します。");
-                }
-                case "stage" -> {
-                    subcommandExecutor.get("stage").onCommand(sender, command, label, args);
-//                    if (args.length >= 2) {
-//                        WallkickStageSave.stageSave(args[1], player);
-//                    } else {
-//                        systemMessage(sender, "ステージ名を入力してください。");
-//                    }
-
-                }
-                default ->
-                        CommandUtil.systemMessage(sender, ChatColor.DARK_RED + "不明なサブコマンドです。/wkps help を確認してください。");
+            if (subcommandMap.containsKey(args[0].toLowerCase())) {
+                return subcommandMap.get(args[0].toLowerCase()).onCommand(sender, command, label, args);
+            } else {
+                CommandUtil.systemMessage(sender, ChatColor.DARK_RED + "不明なサブコマンドです。/wkps help を確認してください。");
+                return true;
             }
-            return true;
         }
-
         return true;
-
     }
 
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (strings.length == 1) {
-            List<String> subcommands = List.of("help", "spawnpoint", "stage");
-            return subcommands.stream()
+            return subcommandMap.keySet().stream()
                     .filter(st -> st.startsWith(strings[0].toLowerCase()))
                     .toList();
         }
