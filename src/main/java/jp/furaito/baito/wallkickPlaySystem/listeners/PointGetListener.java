@@ -1,6 +1,7 @@
 package jp.furaito.baito.wallkickPlaySystem.listeners;
 
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
+import jp.furaito.baito.wallkickPlaySystem.command.CommandUtil;
 import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -37,9 +38,9 @@ public class PointGetListener implements Listener {
         //アイテムを持った状態でのクリック後の処理
 
         if (dataContainer.has(keyA)) {
-            WallkickPlaySettingCommand.systemMessage(player, "スポーンポイント" + ChatColor.RED + "<A>" + ChatColor.RESET + "を設定しました。");
+            CommandUtil.systemMessage(player, "スポーンポイント" + ChatColor.RED + "<A>" + ChatColor.RESET + "を設定しました。");
         } else if (dataContainer.has(keyB)) {
-            WallkickPlaySettingCommand.systemMessage(player, "スポーンポイント" + ChatColor.GREEN + "<B>" + ChatColor.RESET + "を設定しました。");
+            CommandUtil.systemMessage(player, "スポーンポイント" + ChatColor.GREEN + "<B>" + ChatColor.RESET + "を設定しました。");
         }
 
         //確定後処理

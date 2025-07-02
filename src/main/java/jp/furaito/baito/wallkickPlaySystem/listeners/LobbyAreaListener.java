@@ -1,6 +1,7 @@
 package jp.furaito.baito.wallkickPlaySystem.listeners;
 
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
+import jp.furaito.baito.wallkickPlaySystem.command.CommandUtil;
 import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -40,13 +41,13 @@ public class LobbyAreaListener implements Listener {
         //始点処理
         if (click.equals(Action.LEFT_CLICK_BLOCK)) {
             WallkickPlaySystem.setLobbyAreaStart(location);
-            WallkickPlaySettingCommand.systemMessage(player, ChatColor.RED + "始点" + ChatColor.RESET + "を設定しました");
+            CommandUtil.systemMessage(player, ChatColor.RED + "始点" + ChatColor.RESET + "を設定しました");
         }
 
         //終点処理
         else if (click.equals(Action.RIGHT_CLICK_BLOCK)) {
             WallkickPlaySystem.setLobbyAreaEnd(location);
-            WallkickPlaySettingCommand.systemMessage(player, ChatColor.AQUA + "終点" + ChatColor.RESET + "を設定しました");
+            CommandUtil.systemMessage(player, ChatColor.AQUA + "終点" + ChatColor.RESET + "を設定しました");
         }
     }
 
