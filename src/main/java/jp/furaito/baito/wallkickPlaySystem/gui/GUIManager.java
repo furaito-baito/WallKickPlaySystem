@@ -1,86 +1,128 @@
 package jp.furaito.baito.wallkickPlaySystem.gui;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GUIManager {
 
-    private static final GUIManager INSTANCE = new GUIManager();
-    private final List<InventoryGUI> guiList = new ArrayList<>();
-    private final List<Inventory> observeInventories = new ArrayList<>();
-    private Plugin plugin;
+    private static final Map<UUID, Deque<GUIPage>> historyMap = new HashMap<>();
+    private static Plugin plugin;
 
-    //TODO インベントリがどのGUIの派生か判定する
-
-    public static GUIManager getInstance() {
-        return INSTANCE;
-    }
-
-    private GUIManager(){}
-
-    public boolean hasGUI(InventoryGUI gui) {
-        return guiList.contains(gui);
-    }
-
-    public void addObserveInventory(Inventory inventory) {
-        observeInventories.add(inventory);
-    }
-
-    public void removeObserveInventory(Inventory inventory) {
-        observeInventories.remove(inventory);
-    }
-
-    public void showGUI(Player player, InventoryGUI gui) {
-        if (!guiList.contains(gui)) {
-            guiList.add(gui);
-            Bukkit.getPluginManager().registerEvents(gui.getGUIListener(), plugin);
-        }
-        gui.showGUI(player);
+    /**
+     * 初期化処理
+     * @param plugin 動作させるプラグイン
+     */
+    public static void init(Plugin plugin) {
+        GUIManager.plugin = plugin;
+        registerListener();
     }
 
     /**
-     * GUIのインベントリのイベントをキャンセルするリスナーを登録する
-     * @param plugin 登録するプラグイン
+     * ページを移動する
+     * @param next 移動するページ
      */
-    public void registerListener(Plugin plugin) {
-        this.plugin = plugin;
+    public static void goTo(GUIPage next) {
+        Player player = next.getPlayer();
+        UUID uuid = player.getUniqueId();
+        historyMap.computeIfAbsent(uuid, k -> new ArrayDeque<>()).push(next);
+        if (next instanceof Refreshable refreshable) {
+            AutoRefreshManager.register(uuid, refreshable);
+        }
+
+        Bukkit.getScheduler().runTask(plugin, next::open);
+    }
+
+    /**
+     * 一つ前のページに戻る
+     * @param player 戻すプレイヤー
+     */
+    public static void goBack(Player player) {
+        UUID uuid = player.getUniqueId();
+        Deque<GUIPage> stack = historyMap.get(uuid);
+        if (stack == null || stack.size() < 2) {
+            player.closeInventory();
+            return;
+        }
+        stack.pop();
+        GUIPage prev = stack.peek();
+
+        if (prev != null) {
+            Bukkit.getScheduler().runTask(plugin, prev::open);
+        }
+    }
+
+    /**
+     * ページの移動履歴を強制的に消す
+     * @param player 削除するプレイヤー
+     */
+    public static void clearHistory(Player player) {
+        historyMap.remove(player.getUniqueId());
+    }
+
+    /**
+     * ページの移動履歴を全て強制的に消す
+     */
+    public static void clearHistoryAll() {
+        historyMap.clear();
+    }
+
+
+    /**
+     * ページの履歴を消す
+     * @param player プレイヤー
+     * @param page ページ
+     */
+    public static void clearIfTop(Player player, GUIPage page) {
+        UUID uuid = player.getUniqueId();
+        Deque<GUIPage> stack = historyMap.get(uuid);
+        if (stack != null && !stack.isEmpty() && stack.peek() == page) {
+            stack.pop();
+            if (stack.isEmpty()) historyMap.remove(uuid); // 完全解放
+        }
+    }
+
+    /**
+     * インスタンスの生成を制限
+     */
+    private GUIManager(){}
+
+    /**
+     * GUIのインベントリのイベントをキャンセルするリスナーを登録する
+     */
+    private static void registerListener() {
         Bukkit.getPluginManager().registerEvents(new Listener() {
+
             /**
-             * アイテムの持ち出しを禁止してクリック情報を流す
+             * クリック情報をページに委譲
              * @param event イベント情報
              */
             @EventHandler
-            public void listenClick(InventoryClickEvent event) {
-                Inventory inventory = event.getInventory();
-                if(observeInventories.contains(inventory)) {
-                    event.setCancelled(true);
-                    //TODO GUIを特定して渡す null
-                    Bukkit.getPluginManager().callEvent(new GUIEvent(event, null));
-                }
+            public void onClick(InventoryClickEvent event) {
+                if (!(event.getInventory().getHolder() instanceof GUIPage page)) return;
+                page.onClick(event);
             }
 
             /**
-             * GUIを閉じたらイベントの監視から除外
+             * ページ解放処理
              * @param event イベント情報
              */
             @EventHandler
-            public void listenClose(InventoryCloseEvent event) {
-                removeObserveInventory(event.getInventory());
-            }
+            public void onClose(InventoryCloseEvent event) {
+                if (!(event.getInventory().getHolder() instanceof GUIPage page)) return;
 
+                page.onClose();
+                AutoRefreshManager.unregister(page.playerId);
+                clearIfTop(page.getPlayer(), page);
+            }
         }, plugin);
     }
 }

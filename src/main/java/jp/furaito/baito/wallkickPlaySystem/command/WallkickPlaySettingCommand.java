@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
@@ -17,13 +18,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WallkickPlaySettingCommand implements TabExecutor {
 
+    private final Map<String, CommandExecutor> subcommandExecutor = new HashMap<>();
+
+    public WallkickPlaySettingCommand() {
+        subcommandExecutor.put(WallKickStageCommand.SUB_COMMAND, new WallKickStageCommand());
+    }
+
     public static void systemMessage(CommandSender sender, String message) {
         sender.sendMessage("[" + ChatColor.GREEN + "WallKick" + ChatColor.RESET + "]:" + message);
-
     }
 
 
@@ -44,7 +52,6 @@ public class WallkickPlaySettingCommand implements TabExecutor {
                     if (player.isOp()) systemMessage(sender, ChatColor.GRAY + "/wkps stage ステージ管理GUIの表示");
                     systemMessage(sender, ChatColor.GRAY + "/wkps stats <minecraftID>プレイヤーの戦績を表示");
                     systemMessage(sender, ChatColor.GRAY + "/wkps skin 装備品の見た目を変更");
-
                 }
 
                 //スポーンポイント設定
@@ -80,11 +87,12 @@ public class WallkickPlaySettingCommand implements TabExecutor {
                     systemMessage(sender, "上限は2箇所です。防具立ての向きと座標を記録します。");
                 }
                 case "stage" -> {
-                    if (args.length >= 2) {
-                        WallkickStageSave.stageSave(args[1], player);
-                    } else {
-                        systemMessage(sender, "ステージ名を入力してください。");
-                    }
+                    subcommandExecutor.get("stage").onCommand(sender, command, label, args);
+//                    if (args.length >= 2) {
+//                        WallkickStageSave.stageSave(args[1], player);
+//                    } else {
+//                        systemMessage(sender, "ステージ名を入力してください。");
+//                    }
 
                 }
                 default ->

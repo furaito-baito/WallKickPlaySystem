@@ -15,7 +15,7 @@ public class WallKickStageCommand implements CommandExecutor {
     /**
      * サブコマンドのラベル
      */
-    private static final String SUB_COMMAND = "stage";
+    public static final String SUB_COMMAND = "stage";
 
     /**
      * ステージ管理のGUIを表示する
@@ -29,10 +29,7 @@ public class WallKickStageCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase(SUB_COMMAND)) {
             if (sender instanceof Player player) {
-                StageManagerGUI gui = new StageManagerGUI(1);
-                gui.showGUI(player);
-                //TODO 管理画面を表示
-//                GUIManager.getInstance().showGUI(player, );
+                GUIManager.goTo(new StageManagerGUI(player, 0));
             }
         }
         return true;

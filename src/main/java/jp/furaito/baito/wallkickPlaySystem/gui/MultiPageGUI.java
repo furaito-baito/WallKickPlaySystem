@@ -1,14 +1,32 @@
 package jp.furaito.baito.wallkickPlaySystem.gui;
 
-public class MultiPageGUI extends InventoryGUI {
+import org.bukkit.entity.Player;
 
-    private final int page;
+/**
+ * 複数ページを持つGUI
+ */
+public abstract class MultiPageGUI extends GUIPage {
 
-    public MultiPageGUI(int page) {
-        this.page = page;
+    /**
+     * ページ番号
+     */
+    private final int pageNumber;
+
+    /**
+     * コンストラクタ
+     * @param player プレイヤー
+     * @param pageNumber ページ番号
+     */
+    public MultiPageGUI(Player player, int pageNumber) {
+        super(player);
+        this.pageNumber = pageNumber;
     }
 
-    public int getPage() {
-        return page;
+    /**
+     * ページ番号を返す
+     * @return ページ番号
+     */
+    public int getPageNumber() {
+        return pageNumber;
     }
 }

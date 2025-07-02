@@ -2,101 +2,94 @@ package jp.furaito.baito.wallkickPlaySystem.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.profile.PlayerProfile;
-import org.bukkit.profile.PlayerTextures;
 
-import java.net.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * ステージ管理画面
+ */
 public class StageManagerGUI extends MultiPageGUI {
 
-    public StageManagerGUI(int page) {
-        super(page);
+    /**
+     * コンストラクタ
+     * @param player 表示するプレイヤー
+     * @param pageNumber ページ番号
+     */
+    public StageManagerGUI(Player player, int pageNumber) {
+        super(player, pageNumber);
+    }
+
+    /**
+     * インベントリを作成する
+     * @return インベントリ
+     */
+    @Override
+    public Inventory createInventory() {
+        return Bukkit.createInventory(this, 9 * 6, "ステージ管理画面");
     }
 
     @Override
-    public Inventory createGUI() {
-        Inventory inventory = Bukkit.createInventory(null, 9 * 6, "ステージ管理画面");
-
+    public void renderContents() {
         //TODO ステージ取得 + ブロック化
 
-        // 境界線のアイテム作成
-        ItemStack borderline = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
-        ItemMeta borderMeta = Objects.requireNonNull(borderline.getItemMeta());
-        borderMeta.setDisplayName("");
-        borderMeta.setLore(List.of(""));
-        borderMeta.setHideTooltip(true);
-        borderline.setItemMeta(borderMeta);
+        //TODO 仮のステージデータを表示 あとで消す
+        ItemStack stageInfo = GUIUtil.createPlainInfo(Material.GRASS_BLOCK, "テストステージ", List.of());
+        GUIUtil.embedData(stageInfo, "stageUUID", "stage_0");
+        inventory.addItem(stageInfo);
+        //TODO ↑ 後に消す
+
 
         // 境界線を引く
-        for (int i = 0; i < 9; i++) {
-            inventory.setItem(9 * 4 + i, borderline.clone());
-        }
+        GUIUtil.drawHorizontalLine(inventory, Material.GRAY_STAINED_GLASS_PANE, 4, false);
 
         //TODO ステージの数が36を超えたらページボタンを表示する
-        int stageCount = 6; // 仮
+        int stageCount = 1; // 仮
 
         if (stageCount < 36) {
-            // ページ移動のアイテム作成
-            ItemStack backward = new ItemStack(Material.PLAYER_HEAD);
-            SkullMeta meta = (SkullMeta) backward.getItemMeta();
-
-            // プロファイルを生成
-            PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
-            PlayerTextures textures = profile.getTextures();
-            String skinURL = "http://textures.minecraft.net/texture/8e403cc7bbac73670bd543f6b0955bae7b8e9123d83bd760f6204c5afd8be7e1";
-            URL url;
-            try {
-                url = URI.create(skinURL).toURL();
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-            textures.setSkin(url);
-            profile.setTextures(textures);
-            Objects.requireNonNull(meta).setOwnerProfile(profile);
-            backward.setItemMeta(meta);
+            ItemStack backward = GUIUtil.createBackward();
         }
 
         // ステージ追加ボタン
-        ItemStack addStage = new ItemStack(Material.LIME_WOOL);
-        ItemMeta addStageMeta = Objects.requireNonNull(addStage.getItemMeta());
-        addStageMeta.setDisplayName("ステージを追加する");
-        addStageMeta.setLore(List.of(""));
-        addStageMeta.setHideTooltip(true);
-        addStage.setItemMeta(addStageMeta);
-
+        ItemStack addStage = GUIUtil.createPlainInfo(Material.LIME_WOOL, "ステージを追加", Collections.emptyList());
+        GUIUtil.embedData(addStage, "gui", "add_stage");
         inventory.setItem(49, addStage);
 
         // ヘルプボタン
-        ItemStack help = new ItemStack(Material.BOOK);
-        ItemMeta helpMeta = Objects.requireNonNull(help.getItemMeta());
-        helpMeta.setDisplayName("ヘルプを表示");
-        helpMeta.setLore(List.of(""));
-        helpMeta.setHideTooltip(true);
-        help.setItemMeta(helpMeta);
-
+        ItemStack help = GUIUtil.createPlainInfo(Material.BOOK, "ヘルプ", Collections.emptyList());
+        GUIUtil.embedData(help, "gui", "help");
         inventory.setItem(53, help);
-
-
-        return inventory;
     }
 
     @Override
-    public Listener getGUIListener() {
-        return new Listener() {
-            @EventHandler
-            public void listenGUI(GUIEvent event) {
-
-            }
-        };
+    public void onClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+        if (event.getCurrentItem() == null) return;
+        if (event.getCurrentItem().getItemMeta() == null) return;
+        ItemStack clickedItem = event.getCurrentItem();
+        if (GUIUtil.containsData(clickedItem, "gui", "border")) return;
+        if (GUIUtil.containsData(clickedItem, "gui", "add_stage")) {
+            //TODO ステージ追加画面遷移
+//            GUIManager.goTo(new StageDetailGUI());
+            return;
+        }
+        if (GUIUtil.containsData(clickedItem, "gui", "help")) {
+            //TODO ヘルプ表示
+            return;
+        }
+        if (GUIUtil.hasKey(clickedItem, "stageUUID")) {
+            //TODO ステージIdを利用して表示するデータを変更
+            String stageUUID = GUIUtil.getData(clickedItem, "stageUUID");
+            GUIManager.goTo(new StageDetailGUI(UUID.fromString(stageUUID), getPlayer()));
+        }
     }
+
 }
