@@ -1,6 +1,7 @@
 package jp.furaito.baito.wallkickPlaySystem;
 
 import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
+import jp.furaito.baito.wallkickPlaySystem.gui.GUIManager;
 import jp.furaito.baito.wallkickPlaySystem.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -67,14 +68,18 @@ public final class WallkickPlaySystem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ArrowHitListener(), this);
         Bukkit.getPluginManager().registerEvents(new PointGetListener(), this);
         TabExecutor executor = new WallkickPlaySettingCommand();
-        getCommand("wallkickplaysettings").setExecutor(executor);
-        getCommand("wallkickplaysettings").setTabCompleter(executor);
+        getCommand("wallkickplaysystem").setExecutor(executor);
+        getCommand("wallkickplaysystem").setTabCompleter(executor);
 
+        // GUIの初期化
+        GUIManager.init(this);
     }
 
     @Override
     public void onDisable() {
         //プラグイン終了処理
+        // GUIページキャッシュ削除
+        GUIManager.clearHistoryAll();
     }
 
 }
