@@ -9,11 +9,20 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 public final class WallkickPlaySystem extends JavaPlugin {
 
+    private static final List<UUID> gamePlayers = new ArrayList<>();
     //スポーンポイントの座標取得
     private static Location spawnPointA, spawnPointB;
     private static Location lobbyAreaStart, lobbyAreaEnd;
+
+    public static List<UUID> getGamePlayers() {
+        return gamePlayers;
+    }
 
     public static Plugin getPlugin() {
         return getProvidingPlugin(WallkickPlaySystem.class);
@@ -21,7 +30,6 @@ public final class WallkickPlaySystem extends JavaPlugin {
 
     public static Location getSpawnPointA() {
         return spawnPointA;
-
     }
 
     public static void setSpawnPointA(Location spawnPoint) {
@@ -73,6 +81,7 @@ public final class WallkickPlaySystem extends JavaPlugin {
 
         // GUIの初期化
         GUIManager.init(this);
+
     }
 
     @Override

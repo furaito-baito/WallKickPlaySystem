@@ -1,14 +1,13 @@
 package jp.furaito.baito.wallkickPlaySystem.gui;
 
+import jp.furaito.baito.wallkickPlaySystem.util.ItemUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.UUID;
 
 public class StageDetailGUI extends GUIPage {
@@ -31,9 +30,6 @@ public class StageDetailGUI extends GUIPage {
         GUIUtil.drawBackGround(inventory, Material.GRAY_STAINED_GLASS_PANE);
 
         //TODO ステージのUUIDから情報を引っ張ってきて表示
-        //TODO ステージの情報(仮)
-        ItemStack stageInfo = GUIUtil.createPlainInfo(Material.GRASS_BLOCK, ChatColor.AQUA + "テストステージ", List.of(ChatColor.WHITE + "プレイ人数: 2(仮)"));
-        inventory.setItem(9, stageInfo);
 
 
         // 戻るボタン
@@ -49,12 +45,12 @@ public class StageDetailGUI extends GUIPage {
     @Override
     public void onClick(InventoryClickEvent event) {
         event.setCancelled(true);
-        if (event.getCurrentItem() == null) return;
-        if (event.getCurrentItem().getItemMeta() == null) return;
+        if (!ItemUtils.isValid(event.getCurrentItem())) return;
 
         ItemStack clicked = event.getCurrentItem();
-        if (GUIUtil.containsData(clicked, "gui", "border")) return;
-        if (GUIUtil.containsData(clicked, "gui", "backward")) {
+
+        if (ItemUtils.hasTag(clicked, GUI_ID, "border")) return;
+        if (ItemUtils.hasTag(clicked, GUI_ID, "backward")) {
             // 前のページに戻る
             GUIManager.goBack(getPlayer());
         }

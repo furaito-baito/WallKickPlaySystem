@@ -1,20 +1,24 @@
 package jp.furaito.baito.wallkickPlaySystem.gui;
 
+import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
+import jp.furaito.baito.wallkickPlaySystem.util.ItemBuilder;
+import jp.furaito.baito.wallkickPlaySystem.util.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 /**
  * ステージ管理画面
  */
 public class StageManagerGUI extends MultiPageGUI {
+
+    public static final NamespacedKey STAGE_UUID = new NamespacedKey(WallkickPlaySystem.getPlugin(), "stage_uuid");
 
     /**
      * コンストラクタ
@@ -40,13 +44,6 @@ public class StageManagerGUI extends MultiPageGUI {
     public void renderContents() {
         //TODO ステージ取得 + ブロック化
 
-        //TODO 仮のステージデータを表示 あとで消す
-        ItemStack stageInfo = GUIUtil.createPlainInfo(Material.GRASS_BLOCK, "テストステージ", List.of());
-        GUIUtil.embedData(stageInfo, "stageUUID", "stage_0");
-        inventory.addItem(stageInfo);
-        //TODO ↑ 後に消す
-
-
         // 境界線を引く
         GUIUtil.drawHorizontalLine(inventory, Material.GRAY_STAINED_GLASS_PANE, 4, false);
 
@@ -58,35 +55,40 @@ public class StageManagerGUI extends MultiPageGUI {
         }
 
         // ステージ追加ボタン
-        ItemStack addStage = GUIUtil.createPlainInfo(Material.LIME_WOOL, "ステージを追加", Collections.emptyList());
-        GUIUtil.embedData(addStage, "gui", "add_stage");
-        inventory.setItem(49, addStage);
+        ItemStack addStageButton = new ItemBuilder(Material.LIME_WOOL)
+                .setDisplayName("ステージを追加")
+                .addTag(GUI_ID, "add_stage")
+                .addAllItemFlags()
+                .build();
+        inventory.setItem(49, addStageButton);
 
         // ヘルプボタン
-        ItemStack help = GUIUtil.createPlainInfo(Material.BOOK, "ヘルプ", Collections.emptyList());
-        GUIUtil.embedData(help, "gui", "help");
-        inventory.setItem(53, help);
+        ItemStack helpButton = new ItemBuilder(Material.BOOK)
+                .setDisplayName("ヘルプ")
+                .addTag(GUI_ID, "help")
+                .addAllItemFlags()
+                .build();
+        inventory.setItem(53, helpButton);
     }
 
     @Override
     public void onClick(InventoryClickEvent event) {
         event.setCancelled(true);
-        if (event.getCurrentItem() == null) return;
-        if (event.getCurrentItem().getItemMeta() == null) return;
+        if (!ItemUtils.isValid(event.getCurrentItem())) return;
         ItemStack clickedItem = event.getCurrentItem();
-        if (GUIUtil.containsData(clickedItem, "gui", "border")) return;
-        if (GUIUtil.containsData(clickedItem, "gui", "add_stage")) {
+
+        if (ItemUtils.hasTag(clickedItem, GUI_ID, "border")) return;
+        if (ItemUtils.hasTag(clickedItem, GUI_ID, "add_stage")) {
             //TODO ステージ追加画面遷移
-//            GUIManager.goTo(new StageDetailGUI());
             return;
         }
-        if (GUIUtil.containsData(clickedItem, "gui", "help")) {
+        if (ItemUtils.hasTag(clickedItem, GUI_ID, "help")) {
             //TODO ヘルプ表示
             return;
         }
-        if (GUIUtil.hasKey(clickedItem, "stageUUID")) {
+        if (ItemUtils.hasNamespacedKey(clickedItem, STAGE_UUID)) {
             //TODO ステージIdを利用して表示するデータを変更
-            String stageUUID = GUIUtil.getData(clickedItem, "stageUUID");
+            String stageUUID = ItemUtils.getData(clickedItem, STAGE_UUID);
             GUIManager.goTo(new StageDetailGUI(UUID.randomUUID(), getPlayer()));
         }
     }

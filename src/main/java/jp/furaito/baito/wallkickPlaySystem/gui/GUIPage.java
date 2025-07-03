@@ -1,6 +1,8 @@
 package jp.furaito.baito.wallkickPlaySystem.gui;
 
+import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -10,6 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 public abstract class GUIPage implements InventoryHolder {
+
+    /**
+     * IDを埋め込むときのキー
+     */
+    public static final NamespacedKey GUI_ID = new NamespacedKey(WallkickPlaySystem.getPlugin(), "gui_id");
 
     /**
      * プレイヤーのUUID

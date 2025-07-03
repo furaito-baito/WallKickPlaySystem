@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 public class WallKickStageCommand implements CommandExecutor {
 
     /**
@@ -28,6 +30,9 @@ public class WallKickStageCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase(SUB_COMMAND)) {
             if (sender instanceof Player player) {
+                UUID uuid = player.getUniqueId();
+                String uuidString = uuid.toString(); // 93471426-cf92-4de8-b21e-1c06e4403a4f (momonnga)
+
                 //                    if (args.length >= 2) {
 //                        WallkickStageSave.stageSave(args[1], player);
 //                    } else {
