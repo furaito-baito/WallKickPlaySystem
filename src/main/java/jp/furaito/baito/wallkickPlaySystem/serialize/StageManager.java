@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class WallkickStage {
+public class StageManager {
     private final UUID stageUUID;
     private final List<Location> spawnPoint;
     private String stageName;
@@ -15,7 +15,7 @@ public class WallkickStage {
     private boolean isRunning;
 
 
-    public WallkickStage(UUID stageUUID, String stageName, int minPlayer, int maxPlayer) {
+    public StageManager(UUID stageUUID, String stageName, int minPlayer, int maxPlayer) {
         this.stageUUID = stageUUID;
         this.stageName = stageName;
         this.minPlayer = minPlayer;
@@ -24,7 +24,7 @@ public class WallkickStage {
         this.isRunning = false;
     }
 
-    public WallkickStage(UUID stageUUID, String stageName) {
+    public StageManager(UUID stageUUID, String stageName) {
         this(stageUUID, stageName, 2, 2);
     }
 

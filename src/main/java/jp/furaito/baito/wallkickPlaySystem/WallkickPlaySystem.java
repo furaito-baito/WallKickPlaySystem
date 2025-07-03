@@ -1,21 +1,32 @@
 package jp.furaito.baito.wallkickPlaySystem;
 
+import com.sk89q.worldedit.bukkit.adapter.BukkitImplAdapter;
 import jp.furaito.baito.wallkickPlaySystem.command.WallkickPlaySettingCommand;
+import jp.furaito.baito.wallkickPlaySystem.event.PlayerJoinStageEvent;
 import jp.furaito.baito.wallkickPlaySystem.gui.GUIManager;
 import jp.furaito.baito.wallkickPlaySystem.listeners.*;
-import jp.furaito.baito.wallkickPlaySystem.serialize.PlayerStats;
+import jp.furaito.baito.wallkickPlaySystem.serialize.StatsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 public final class WallkickPlaySystem extends JavaPlugin {
 
     //スポーンポイントの座標取得
     private static Location spawnPointA, spawnPointB;
     private static Location lobbyAreaStart, lobbyAreaEnd;
+
 
     public static Plugin getPlugin() {
         return getProvidingPlugin(WallkickPlaySystem.class);
@@ -61,9 +72,6 @@ public final class WallkickPlaySystem extends JavaPlugin {
 
     }
 
-    //
-    private PlayerStats playerStats = null;
-
     @Override
     public void onEnable() {
         //プラグイン開始処理
@@ -72,20 +80,17 @@ public final class WallkickPlaySystem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new SpectatorListener(), this);
         Bukkit.getPluginManager().registerEvents(new ArrowHitListener(), this);
         Bukkit.getPluginManager().registerEvents(new PointGetListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinStageListener(), this);
+
         TabExecutor executor = new WallkickPlaySettingCommand();
         getCommand("wallkickplaysystem").setExecutor(executor);
         getCommand("wallkickplaysystem").setTabCompleter(executor);
 
-        //プレイヤーの戦績系
-        // PlayerStatsオブジェクトをシリアライズ・デシリアライズするのに使うクラスをBukkitに登録する
-        ConfigurationSerialization.registerClass(PlayerStats.class);
-
-        // 設定されている値を取得してデシリアライズする
-        playerStats=(PlayerStats) getConfig().get("subjugation");
-        if(playerStats == null){
-            // データを読み取れなかった場合はオブジェクトを新規作成
-            playerStats=new PlayerStats();
+        for (Player player:Bukkit.getOnlinePlayers()){
+            Event event = new PlayerJoinStageEvent(player);
+            Bukkit.getPluginManager().callEvent(event);
         }
+
 
         // GUIの初期化
         GUIManager.init(this);
@@ -93,9 +98,15 @@ public final class WallkickPlaySystem extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
         //プラグイン終了処理
+        StatsManager.gamePlayers();
+
+
         // GUIページキャッシュ削除
         GUIManager.clearHistoryAll();
+
+
     }
 
 }

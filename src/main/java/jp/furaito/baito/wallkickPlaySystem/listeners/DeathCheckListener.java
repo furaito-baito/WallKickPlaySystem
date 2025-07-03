@@ -1,7 +1,9 @@
 package jp.furaito.baito.wallkickPlaySystem.listeners;
 
+import jp.furaito.baito.wallkickPlaySystem.GameManager;
 import jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem;
 import org.bukkit.*;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,10 +11,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 
+import java.io.File;
+import java.util.List;
+import java.util.UUID;
+
+import static jp.furaito.baito.wallkickPlaySystem.WallkickPlaySystem.getPlugin;
+
 public class DeathCheckListener implements Listener {
     @EventHandler
     //プレイヤーの死亡判定を回避しつつ体力が0になった際に処理を入れる
-    public void listenDeath(EntityDamageEvent event) {
+    public static void listenDeath(EntityDamageEvent event) {
         Entity entity = event.getEntity();
 
         if (!(entity instanceof Player player)) return;
@@ -23,6 +31,14 @@ public class DeathCheckListener implements Listener {
 
         if (nowHP - damage <= 0) {
             event.setCancelled(true);
+
+            //キルカウント
+            List<UUID> gamePlayers = GameManager.getGamePlayers();
+            String uuid = gamePlayers.toString();
+            File file = new File(getPlugin().getDataFolder().getAbsoluteFile(), uuid + ".yml");
+            int killCnt = YamlConfiguration.loadConfiguration(file).getInt("kill");
+            killCnt++;
+            YamlConfiguration.loadConfiguration(file).set("kill", killCnt);
 
 
             //プレイヤーの体力をリセット・スペクテイター化
@@ -45,6 +61,8 @@ public class DeathCheckListener implements Listener {
             Plugin plugin = WallkickPlaySystem.getPlugin();
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 player.setGameMode(GameMode.SURVIVAL);
+                int value = YamlConfiguration.loadConfiguration(file).getInt("kill");
+                player.sendMessage(value + "回倒した！");
             }, 20 * 3);
         }
 

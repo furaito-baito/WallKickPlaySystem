@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class WallkickStageSave {
+public class StageSerialize {
     public static void stageSave(String stageName, Player player) {
         BukkitPlayer wePlayer = BukkitAdapter.adapt(player);
         LocalSession session = WorldEdit.getInstance().getSessionManager().get(wePlayer);
