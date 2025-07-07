@@ -1,7 +1,6 @@
 package jp.furaito.baito.wallkickPlaySystem.gui;
 
 import jp.furaito.baito.wallkickPlaySystem.util.ItemBuilder;
-import jp.furaito.baito.wallkickPlaySystem.util.ItemEditor;
 import jp.furaito.baito.wallkickPlaySystem.util.ItemUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -105,11 +104,11 @@ public class GUIUtil {
         String skinURL = "http://textures.minecraft.net/texture/8e403cc7bbac73670bd543f6b0955bae7b8e9123d83bd760f6204c5afd8be7e1";
 
         ItemStack forward = ItemUtils.createCustomHead(skinURL);
-        return new ItemEditor(forward)
+        return new ItemBuilder(forward)
                 .setDisplayName(ChatColor.WHITE + "次へ")
                 .addTag(GUIPage.GUI_ID, "forward")
                 .addAllItemFlags()
-                .apply();
+                .build();
     }
 
     /**
@@ -121,11 +120,11 @@ public class GUIUtil {
         String skinURL = "http://textures.minecraft.net/texture/533ad5c22db16435daad61590aba51d9379142dd556d6c422a7110ca3abea50";
 
         ItemStack customHead = ItemUtils.createCustomHead(skinURL);
-        return new ItemEditor(customHead)
+        return new ItemBuilder(customHead)
                 .setDisplayName(ChatColor.WHITE + "戻る")
                 .addTag(GUIPage.GUI_ID, "backward")
                 .addAllItemFlags()
-                .apply();
+                .build();
     }
 
 }
