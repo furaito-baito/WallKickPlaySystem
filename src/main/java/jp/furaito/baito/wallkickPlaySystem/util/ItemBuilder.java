@@ -21,7 +21,7 @@ public class ItemBuilder {
     /** 作成対象の {@link ItemStack}。 */
     private final ItemStack item;
     /** アイテムの {@link ItemMeta}。 */
-    private final ItemMeta meta;
+    private ItemMeta meta;
 
     /**
      * 指定された {@link Material} を元にビルダーを初期化する
@@ -39,12 +39,12 @@ public class ItemBuilder {
 
     /**
      * 指定した {@link Material} に変更する
+     * これを実行するとビルダーが切り替わってアイテムデータもリセットされます
      * @param material アイテムの素材
      * @return このビルダー（メソッドチェーン用）
      */
     public ItemBuilder setMaterial(Material material) {
-        this.item.setType(material);
-        return this;
+        return new ItemBuilder(material);
     }
 
     /**
