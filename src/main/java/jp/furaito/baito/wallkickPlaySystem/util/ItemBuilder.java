@@ -44,7 +44,12 @@ public class ItemBuilder {
      * @return このビルダー（メソッドチェーン用）
      */
     public ItemBuilder setMaterial(Material material) {
-        return new ItemBuilder(material);
+        this.item.setType(material);
+        this.meta = this.item.getItemMeta();
+        if (this.meta == null) {
+            throw new IllegalArgumentException("このアイテムは詳細なデータ設定（ItemMeta）に対応していません: " + item.getType());
+        }
+        return this;
     }
 
     /**
