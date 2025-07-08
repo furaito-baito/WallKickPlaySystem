@@ -10,20 +10,6 @@ import org.bukkit.inventory.ItemStack;
 public class GUIUtil {
 
     /**
-     * 境界用のツールチップのないアイテムを作る
-     *
-     * @param material マテリアル
-     * @return 生成されたアイテムスタック
-     */
-    public static ItemStack createBorder(Material material) {
-        return new ItemBuilder(material)
-                .setDisplayName("")
-                .addTag(GUIPage.GUI_ID, "border")
-                .setHideTooltip(true)
-                .build();
-    }
-
-    /**
      * インベントリに指定のアイテムで横線を作る
      *
      * @param inventory 編集するインベントリ
@@ -31,8 +17,7 @@ public class GUIUtil {
      * @param line      行インデックス
      * @param overwrite アイテムを上書きするか
      */
-    public static void drawHorizontalLine(Inventory inventory, Material material, int line, boolean overwrite) {
-        ItemStack border = createBorder(material);
+    public static void drawHorizontalLine(Inventory inventory, ItemStack item, int line, boolean overwrite) {
         int height = inventory.getSize() / 9;
 
         if (line > (height - 1)) {
@@ -42,7 +27,7 @@ public class GUIUtil {
         for (int i = 0; i < 9; i++) {
             int setIndex = 9 * line + i;
             if (overwrite || ItemUtils.isEmpty(inventory.getItem(setIndex))) {
-                inventory.setItem(setIndex, border.clone());
+                inventory.setItem(setIndex, item.clone());
             }
         }
     }
@@ -55,8 +40,7 @@ public class GUIUtil {
      * @param line      列インデックス
      * @param overwrite アイテムを上書きするか
      */
-    public static void drawVerticalLine(Inventory inventory, Material material, int line, boolean overwrite) {
-        ItemStack border = createBorder(material);
+    public static void drawVerticalLine(Inventory inventory, ItemStack item, int line, boolean overwrite) {
         if (line < 0 || 8 < line) {
             throw new IllegalArgumentException("out of line");
         }
@@ -65,7 +49,7 @@ public class GUIUtil {
         for (int i = 0; i < height; i++) {
             int setIndex = 9 * i + line;
             if (overwrite || ItemUtils.isEmpty(inventory.getItem(setIndex))) {
-                inventory.setItem(setIndex, border.clone());
+                inventory.setItem(setIndex, item.clone());
             }
         }
     }
@@ -77,8 +61,8 @@ public class GUIUtil {
      * @param inventory インベントリ
      * @param material  背景のアイテム
      */
-    public static void drawBackGround(Inventory inventory, Material material) {
-        drawBackGround(inventory, material, false);
+    public static void drawBackGround(Inventory inventory, ItemStack item) {
+        drawBackGround(inventory, item, false);
     }
 
     /**
@@ -88,10 +72,10 @@ public class GUIUtil {
      * @param material  背景のアイテム
      * @param overwrite アイテムを上書きするか
      */
-    public static void drawBackGround(Inventory inventory, Material material, boolean overwrite) {
+    public static void drawBackGround(Inventory inventory, ItemStack item, boolean overwrite) {
         int height = inventory.getSize() / 9;
         for (int i = 0; i < height; i++) {
-            drawHorizontalLine(inventory, material, i, overwrite);
+            drawHorizontalLine(inventory, item, i, overwrite);
         }
     }
 
