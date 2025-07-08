@@ -36,6 +36,27 @@ public class ItemBuilder {
             throw new IllegalArgumentException("このアイテムは詳細なデータ設定（ItemMeta）に対応していません: " + item.getType());
         }
     }
+
+    /**
+     * 指定した {@link Material} に変更する
+     * @param material アイテムの素材
+     * @return このビルダー（メソッドチェーン用）
+     */
+    public ItemBuilder setMaterial(Material material) {
+        this.item.setType(material);
+        return this;
+    }
+
+    /**
+     * アイテムのスタック数を変更する
+     * @param amount アイテムの数
+     * @return このビルダー（メソッドチェーン用）
+     */
+    public ItemBuilder setAmount(int amount) {
+        this.item.setAmount(amount);
+        return this;
+    }
+
     /**
      * 既存の ItemStack を使ってビルダーを初期化する
      *
