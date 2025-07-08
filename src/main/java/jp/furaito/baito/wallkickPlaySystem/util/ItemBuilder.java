@@ -38,6 +38,20 @@ public class ItemBuilder {
     }
 
     /**
+     * 既存の ItemStack を使ってビルダーを初期化する
+     *
+     * @param item 編集対象のアイテム
+     * @throws IllegalArgumentException ItemMeta を取得できない場合
+     */
+    public ItemBuilder(ItemStack item) {
+        this.item = item.clone();
+        this.meta = this.item.getItemMeta();
+        if (this.meta == null) {
+            throw new IllegalArgumentException("このアイテムは詳細なデータ設定 (ItemMeta) に対応していません: " + item.getType());
+        }
+    }
+
+    /**
      * 指定した {@link Material} に変更する
      * これを実行するとアイテムデータがリセットされます
      * @param material アイテムの素材
@@ -60,20 +74,6 @@ public class ItemBuilder {
     public ItemBuilder setAmount(int amount) {
         this.item.setAmount(amount);
         return this;
-    }
-
-    /**
-     * 既存の ItemStack を使ってビルダーを初期化する
-     *
-     * @param item 編集対象のアイテム
-     * @throws IllegalArgumentException ItemMeta を取得できない場合
-     */
-    public ItemBuilder(ItemStack item) {
-        this.item = item.clone();
-        this.meta = this.item.getItemMeta();
-        if (this.meta == null) {
-            throw new IllegalArgumentException("このアイテムは詳細なデータ設定 (ItemMeta) に対応していません: " + item.getType());
-        }
     }
 
 
@@ -186,12 +186,13 @@ public class ItemBuilder {
     /**
      * 現在の設定をもとに {@link ItemStack} を構築する
      *
-     * @return 完成した {@link ItemStack}
+     * @return 完成した {@link ItemStack} のクローン
      */
     public ItemStack build() {
         item.setItemMeta(meta);
-        return item.clone();
+        return item;
     }
+
 }
 
 

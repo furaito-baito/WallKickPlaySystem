@@ -53,6 +53,11 @@ public class StageManagerGUI extends MultiPageGUI {
         if (stageCount < 36) {
             ItemStack backward = GUIUtil.createBackward();
         }
+        ItemBuilder builder = new ItemBuilder(Material.GRAY_WOOL);
+        for (int i = 0; i < 9; i++) {
+            builder.setDisplayName("テスト" + i);
+            inventory.setItem(45 + i , builder.build());
+        }
 
         // ステージ追加ボタン
         ItemStack addStageButton = new ItemBuilder(Material.LIME_WOOL)
