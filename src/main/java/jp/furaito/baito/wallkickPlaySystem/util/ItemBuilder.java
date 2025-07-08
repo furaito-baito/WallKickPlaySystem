@@ -164,7 +164,7 @@ public class ItemBuilder {
      */
     public ItemStack build() {
         item.setItemMeta(meta);
-        return item;
+        return item.clone();
     }
 }
 
