@@ -13,7 +13,7 @@ public class GUIUtil {
      * インベントリに指定のアイテムで横線を作る
      *
      * @param inventory 編集するインベントリ
-     * @param material  使用するマテリアル
+     * @param item      使用するアイテム
      * @param line      行インデックス
      * @param overwrite アイテムを上書きするか
      */
@@ -36,7 +36,7 @@ public class GUIUtil {
      * インベントリに指定のアイテムで縦線を作る
      *
      * @param inventory 編集するインベントリ
-     * @param material  使用するマテリアル
+     * @param item      使用するマテリアル
      * @param line      列インデックス
      * @param overwrite アイテムを上書きするか
      */
@@ -59,7 +59,7 @@ public class GUIUtil {
      * 既にアイテムのある場所は上書きされない
      *
      * @param inventory インベントリ
-     * @param material  背景のアイテム
+     * @param item      背景のアイテム
      */
     public static void drawBackGround(Inventory inventory, ItemStack item) {
         drawBackGround(inventory, item, false);
@@ -69,7 +69,7 @@ public class GUIUtil {
      * インベントリの背景を作る
      *
      * @param inventory インベントリ
-     * @param material  背景のアイテム
+     * @param item      背景のアイテム
      * @param overwrite アイテムを上書きするか
      */
     public static void drawBackGround(Inventory inventory, ItemStack item, boolean overwrite) {
